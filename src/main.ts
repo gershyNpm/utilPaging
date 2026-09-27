@@ -13,7 +13,7 @@ export default async function*<Next, V>(inp: PagingInp<Next, V>, last: null | Ne
     for await (const v of await page) { didYield = true; yield v; }
     
     if (!didYield)    break;
-    if (next == null) break; // Note loose comparison interprets `undefined` as end-of-paging
+    if (next == null) break; // Note loose comparison intentionally interprets `undefined` as end-of-paging
     
     last = next;
     
