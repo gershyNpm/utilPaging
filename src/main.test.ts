@@ -1,6 +1,5 @@
-import './main.ts';
-import { testRunner } from '../build/utils.test.ts';
-import './main.ts';
+import { assertEqual, testRunner } from '../build/utils.test.ts';
+import paging from './main.ts';
 import { entry } from '@gershy/entry';
 import '@gershy/clearing';
 
@@ -24,8 +23,19 @@ entry({ name: 'test', codec, inp: { reg: '^', effort: 0 }, fn: async (logger, { 
   
   await testRunner({ logger, reg, effort, inp, cases: [
     
-    { name: 'todo', fn: async logger => {
-      logger.log({ $$: 'threat', msg: 'TODO - implement!' });
+    { name: 'basic', fn: async logger => {
+      
+      const vals = await paging(async last => {
+        
+        return {
+          page: last.slice(0, 2),
+          next: last.slice(2)
+        };
+        
+      }, [ 1, 2, 3, 4, 5 ])[cl.toArr](v => v);
+      
+      assertEqual(vals, [ 1, 2, 3, 4, 5 ]);
+      
     }}
   
   ]});
